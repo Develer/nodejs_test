@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+  <h1>Create an Account</h1>
+  <form action = "/register" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <span>Login</span>
+    <input type="text" name="login", required="true">
+    <br>
+    <span>Password</span>
+    <input type="password" name="password", required="true">
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
