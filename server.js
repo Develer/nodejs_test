@@ -14,13 +14,25 @@ var sequelize = new Sequelize({dialect: 'postgres'});
 
 var app = express();
 
-app.engine('html', cons.swig);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+// Set react view engine
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jsx');
+app.engine('jsx', require('express-react-views').createEngine());
 
 app.use(express.static('sources'));
 app.use(bodyParser.json());
 app.use(session({secret: '1234567890qwerty'}));
+
+// Add headers
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8080');
+  res.setHeader('Access-Control-Allow-Methods',
+                'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers',
+                'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 app.use(function(req, res, next) {
   if (req.session && req.session.user) {

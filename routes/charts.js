@@ -6,11 +6,13 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // create chart
-router.post('/create', urlencodedParser, requireLogin, function (req, res) {
+router.post('/create', urlencodedParser, function (req, res) {
   var chart = {
-    user_id: parseInt(req.user.id),
+    // user_id: parseInt(req.user.id),
+    user_id: parseInt(req.body.user_id),
     plot_exp: req.body.plot_exp
   };
+  console.log(chart);
   models.charts.create(chart).then(function() {
     res.end(JSON.stringify(chart));
   });
@@ -35,10 +37,11 @@ router.post('/:id/update', urlencodedParser, requireLogin, function (req, res) {
 });
 
 // chart list
-router.post('/list', urlencodedParser, requireLogin, function (req, res) {
+router.post('/list', urlencodedParser, function (req, res) {
   models.charts.findAll({
     where: {
-      user_id: parseInt(req.user.id)
+      // user_id: parseInt(req.user.id)
+      user_id: parseInt(req.body.id)
     }
   }).then(function(plot_exp) {
     res.end(JSON.stringify({"plots": plot_exp}));

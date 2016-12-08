@@ -12,7 +12,7 @@ var csrfProtection = csrf();
 
 
 router.get('/', function(req, res) {
-  res.render('index', {'title': 'hello world!'});
+  res.render('index', { title: 'Hello user John!', name: 'John' });
 });
 
 router.get('/register', csrfProtection, function(req, res) {
