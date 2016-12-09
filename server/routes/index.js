@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/register', csrfProtection, function(req, res) {
-  res.render('register.html', { csrfToken: req.csrfToken() });
+  res.end(JSON.stringify({ csrfToken: req.csrfToken() }));
 });
 
 router.post('/register', urlencodedParser, function(req, res) {
@@ -26,12 +26,12 @@ router.post('/register', urlencodedParser, function(req, res) {
     password: hash
   }
   models.users.create(user).then(function() {
-    res.redirect('/');
+    res.end(JSON.stringify({ status: 'done' }));
   });
 });
 
 router.get('/login', csrfProtection, function(req, res) {
-  res.render('login.html', { csrfToken: req.csrfToken() });
+  res.end(JSON.stringify({ csrfToken: req.csrfToken() }));
 });
 
 router.post('/login', urlencodedParser, function(req, res) {

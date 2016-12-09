@@ -26,7 +26,6 @@ class PlotExpStore extends EventEmmiter {
   }
 
   handleAction(action) {
-    console.log("Action", action);
     switch(action.type) {
       case "CREATE_PLOT": {
         this.createPlotExp(action.plot_exp);
