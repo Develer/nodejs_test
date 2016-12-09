@@ -9,14 +9,14 @@ class Register extends React.Component {
     super();
 
     this.state = {
-      csrfToken: RegStore.getCSRFToken(),
+      csrfToken: RegStore.getCSRFTokenReg(),
       login: "",
       password: "",
       registeredData: RegStore.getRegisteredData()
     }
 
     this.getRegisteredData = this.getRegisteredData.bind(this);
-    this.getCSRFToken = this.getCSRFToken.bind(this);
+    this.getCSRFTokenReg = this.getCSRFTokenReg.bind(this);
     
     this.changer = this.changer.bind(this);
     
@@ -28,7 +28,7 @@ class Register extends React.Component {
   componentWillMount() {
     console.log('mount register');
     RegStore.on('change', this.changer);
-    RegisterActions.getCSRFToken();
+    RegisterActions.getCSRFTokenReg();
   }
 
   changer() {
@@ -47,7 +47,7 @@ class Register extends React.Component {
     
     // Check csrfToken property state
     if (this.state.csrfToken == "") {
-      this.getCSRFToken();
+      this.getCSRFTokenReg();
     }
   }
 
@@ -56,9 +56,9 @@ class Register extends React.Component {
     RegStore.removeListener('change', this.changer);
   }
 
-  getCSRFToken() {
+  getCSRFTokenReg() {
     this.setState({
-      csrfToken: RegStore.getCSRFToken()
+      csrfToken: RegStore.getCSRFTokenReg()
     });
   }
 

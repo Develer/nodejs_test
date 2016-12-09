@@ -11,7 +11,7 @@ class RegStore extends EventEmmiter {
     this.csrfToken = "";
   }
 
-  getCSRFToken() {
+  getCSRFTokenReg() {
     return this.csrfToken;
   }
 
@@ -22,8 +22,8 @@ class RegStore extends EventEmmiter {
   handleAction(action) {
     console.log("REG ACTION!");
     switch(action.type) {
-      case "GET_CSRF_TOKEN": {
-        console.log("GET_CSRF_TOKEN");
+      case "GET_CSRF_REG_TOKEN": {
+        console.log("GET_CSRF_REG_TOKEN");
         this.csrfToken = action.csrfToken;
         this.emit('change');
         break;

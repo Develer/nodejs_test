@@ -3,12 +3,12 @@ import axios from 'axios';
 import dispatcher from '../dispatcher.jsx';
 
 
-export function getCSRFTokenReg() {
-  console.log('getCSRFToken reg action');
-  axios.get('http://127.0.0.1:8081/register').then((response) => {
+export function getCSRFTokenLogin() {
+  console.log('getCSRFToken login action');
+  axios.get('http://127.0.0.1:8081/login').then((response) => {
     var csrfToken = response.data.csrfToken;
     dispatcher.dispatch({
-      type: "GET_CSRF_REG_TOKEN",
+      type: "GET_CSRF_LOGIN_TOKEN",
       csrfToken: csrfToken
     });
   }).catch((error) => {
@@ -16,13 +16,13 @@ export function getCSRFTokenReg() {
   });
 }
 
-export function register(data) {
-  console.log("register action");
-  axios.post('http://127.0.0.1:8081/register', data)
+export function login(data) {
+  console.log("login action");
+  axios.post('http://127.0.0.1:8081/login', data)
   .then((response) => {
-    // console.log('response:', response);
+    console.log('response:', response);
     dispatcher.dispatch({
-      type: "REG_DONE",
+      type: "LOGIN_DONE",
       data: response.data
     });
   })

@@ -43,19 +43,20 @@ router.post('/login', urlencodedParser, function(req, res) {
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         req.session.user = user;
-        res.redirect('/home');
+        res.end(JSON.stringify({ session: req.session }));
       } else {
-        res.render('login.html', {'error': 'Login or password incorrect!'});
+        res.end(JSON.stringify({'error': 'Login or password incorrect!'}));
       }
     } else {
-        res.render('login.html', {'error': 'Login or password incorrect!'});
+        res.end(JSON.stringify({'error': 'Login or password incorrect!'}));
     }
   });
 });
 
 router.get('/logout', function(req, res) {
   req.session.destroy();
-  res.redirect('/');
+  // res.redirect('/');
+  res.end(JSON.stringify({ status: 'done' }));
 });
 
 router.get('/home', requireLogin, function(req, res) {
