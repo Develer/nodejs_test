@@ -18,14 +18,21 @@ class Dashboard extends React.Component {
     };
   }
 
-  changeChart() {}
-
-  onPlotSelect(data) {
+  changeChart(data) {
     this.setState({
       plot_id: data.plot_id,
       user_id: data.user_id,
       plot: data.plot
-    })
+    });
+  }
+
+  onPlotSelect(data) {
+    console.log('onPlotSelect data: ', data)
+    this.setState({
+      plot_id: data.plot_id,
+      user_id: data.user_id,
+      plot: data.plot
+    });
   }
 
   render() {

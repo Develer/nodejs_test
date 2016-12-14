@@ -29,14 +29,17 @@ class PlotList extends React.Component {
     this.setState({
       plot_exps: PlotExpStore.getAll()
     });
+    // console.log('plot_exps: ', this.state.plot_exps);
   }
 
   selectPlot(data) {
+    // console.log('selectPlot: ', data);
     this.props.onPlotSelect(data);
   }
   
   render() {
     const { plot_exps } = this.state;
+    console.log("RENDER LIST: ", plot_exps);
     const PlotComponents = plot_exps.map((plot_exp) => {
       return <Plot onPlotClick={this.selectPlot.bind(this)}
                    key={plot_exp.plot_id}

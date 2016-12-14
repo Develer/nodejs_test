@@ -12,7 +12,16 @@ class Plot extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('mount');
+    // console.log('mount Plot');
+    this.setState({
+      plot_id: this.props.plotId,
+      user_id: this.props.userId,
+      plot: this.props.plotExp
+    })
+  }
+
+  componentWillReceiveProps(props) {
+    // console.log('mount Plot');
     this.setState({
       plot_id: this.props.plotId,
       user_id: this.props.userId,
@@ -25,8 +34,8 @@ class Plot extends React.Component {
   }
 
   render() {
-    // console.log("begin");
     const { plotExp } = this.props;
+    // console.log("begin");
     return (
       <li>
         <button

@@ -14,7 +14,7 @@ class PlotExpStore extends EventEmmiter {
     this.plot_exps.push({
       plot_id: plot_id,
       user_id: user_id,
-      plot_exp: plot
+      plot: plot
     });
     this.emit('change');
   }
@@ -23,10 +23,11 @@ class PlotExpStore extends EventEmmiter {
     for (var i = 0; i < this.plot_exps.length; i++) {
       if (this.plot_exps[i].plot_id == plot_id) {
         this.plot_exps[i].plot_exp = plot;
-        break;
+        // console.log('updatePlotExp: ', this.plot_exps[i]);
+        this.emit('change');
+        // break;
       }
     }
-    this.emit('change');
   }
 
   deletePlotExp(plot_id) {

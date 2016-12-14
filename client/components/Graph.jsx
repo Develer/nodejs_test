@@ -47,6 +47,7 @@ class Graph extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    // console.log('componentWillReceiveProps', props.chart);
     this.setState({
       plot_id: props.chart.plot_id,
       user_id: props.chart.user_id,
@@ -56,14 +57,14 @@ class Graph extends React.Component {
 
     this.state.data = [];
 
-    console.log('this.state.data before: ', this.state.data);
+    // console.log('this.state.data before: ', this.state.data);
     
     var parser = new this.parser.Parser();
     for (var i = -5; i <= 5; i++) {
       this.state.data.push([i, parser.evaluate(props.chart.plot, { x: i })]);
     }
 
-    console.log('this.state.data after: ', this.state.data);
+    // console.log('this.state.data after: ', this.state.data);
 
     this.updateGraph();
   }
@@ -90,7 +91,7 @@ class Graph extends React.Component {
     var y = d3.scaleLinear()
         .rangeRound([height, 0]);
 
-    var line = d3.line().curve(d3.curveCardinal.tension(0.5))
+    var line = d3.line().curve(d3.curveCardinal.tension(0))
         .x(function(d) { return x(d[0]); })
         .y(function(d) { return y(d[1]); });
 
@@ -167,6 +168,13 @@ class Graph extends React.Component {
 
   updateChart() {
     PlotExpActions.updatePlotExp(this.state.plot_id, 1, this.state.plot);
+    // this.setState({
+    //   plot_id: this.state.plot_id,
+    //   user_id: 1,
+    //   plot: this.state.plot
+    //   // data: []
+    // });
+    // PlotExpActions.reloadPlotExps();
   }
 
   deleteChart() {
@@ -187,7 +195,7 @@ class Graph extends React.Component {
 
     this.state.data = data;
 
-    console.log('this.state.data cleanChart: ', this.state.data);
+    // console.log('this.state.data cleanChart: ', this.state.data);
 
 
     this.updateGraph();
