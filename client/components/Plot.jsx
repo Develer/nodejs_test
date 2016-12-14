@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class Plot extends React.Component {
   constructor(props) {
     super(props);
@@ -7,12 +8,12 @@ class Plot extends React.Component {
     this.state = {
       plot_id: null,
       user_id: null,
-      plot: ""
+      plot: "",
+      active: ""
     }
   }
 
   componentWillMount() {
-    // console.log('mount Plot');
     this.setState({
       plot_id: this.props.plotId,
       user_id: this.props.userId,
@@ -21,7 +22,6 @@ class Plot extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    // console.log('mount Plot');
     this.setState({
       plot_id: this.props.plotId,
       user_id: this.props.userId,
@@ -29,20 +29,22 @@ class Plot extends React.Component {
     })
   }
 
-  onPlotClick() {
+  onPlotClick(event) {
+    event.preventDefault();
+    console.log(event.target);
+    // event.target.class = "active";
+    this.setState({
+      active: "active"
+    });
     this.props.onPlotClick(this.state);
   }
 
   render() {
     const { plotExp } = this.props;
-    // console.log("begin");
     return (
-      <li>
-        <button
-          className="btn btn-lg btn-primary"
-          onClick={this.onPlotClick.bind(this)}>
-            {plotExp}
-        </button>
+      <li className={this.state.active}>
+        <a href="#"
+           onClick={this.onPlotClick.bind(this)}>{ plotExp }</a>
       </li>
     )
   }

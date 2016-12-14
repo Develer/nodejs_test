@@ -1,3 +1,5 @@
+var path = require('path');
+
 var config = {
     entry: './main.js',
     
@@ -25,6 +27,11 @@ var config = {
                         'transform-class-properties',
                         'transform-decorators-legacy']
                 }
+            }, {
+                test: /\.css/,
+                // loaders: 'style!css!'
+                loaders: ['style', 'css', 'sass'],
+                // include: path.join(__dirname, 'client')
             }
         ]
     }

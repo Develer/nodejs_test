@@ -3,6 +3,8 @@ import React from 'react';
 import * as LoginActions from '../actions/LoginActions.jsx';
 import LoginStore from '../stores/LoginStore.jsx';
 
+require('./signin.css');
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -90,17 +92,17 @@ class Login extends React.Component {
     const { csrfToken } = this.state;
 
     return (
-      <div class="container">
-        <form class="form-signin" onSubmit={ this.handleSubmit }>
+      <div className="container">
+        <form className="form-signin" onSubmit={ this.handleSubmit }>
           <input type="hidden" name="_csrf" value={ csrfToken }/>
-          <h2 class="form-signin-heading">Login</h2>
-          <label for="inputEmail" class="sr-only">Login</label>
-          <input type="text" id="inputEmail" class="form-control" placeholder="Email address" required="" autoFocus=""
+          <h2 className="form-signin-heading">Login</h2>
+          <label for="inputEmail" className="sr-only">Login</label>
+          <input type="text" id="inputEmail" className="form-control" placeholder="Email address" required="" autoFocus=""
                  onChange={this.handleLoginChange}/>
-          <label for="inputPassword" class="sr-only">Password</label>
-          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required=""
+          <label for="inputPassword" className="sr-only">Password</label>
+          <input type="password" id="inputPassword" className="form-control" placeholder="Password" required=""
                  onChange={this.handlePasswordChange}/>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">LogIn</button>
+          <button className="btn btn-lg btn-primary btn-block" type="submit">LogIn</button>
         </form>
       </div>
     )

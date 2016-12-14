@@ -31,12 +31,6 @@ class Graph extends React.Component {
     this.cleanChart = this.cleanChart.bind(this);
   }
 
-  // .line {
-  //   fill: none;
-  //   stroke: steelblue;
-  //   stroke-width: 1.5px;
-  // }
-
   componentWillMount() {
     console.log('mount graph');
   }
@@ -204,16 +198,20 @@ class Graph extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="page-header"></h1>
-        <input type="text" class="form-control" value={this.state.plot} onChange={this.onChartChange.bind(this)}/>
-        <br/>
-        {(this.state.plot_id) ?
-          <div>
-            <button className="btn btn-lg btn-primary" onClick={this.updateChart.bind(this)}>Update</button>
-            <button className="btn btn-lg btn-primary" onClick={this.deleteChart.bind(this)}>Delete</button>
-          </div> : <button className="btn btn-lg btn-primary" onClick={this.createChart.bind(this)}>Create</button>}
-        <button className="btn btn-lg btn-primary" onClick={this.cleanChart.bind(this)}>Clean</button>
-        <svg width="960" height="500"></svg>
+        <div className="form-inline">
+          <input type="text" className="form-control" value={this.state.plot} onChange={this.onChartChange.bind(this)}/>
+          {(this.state.plot_id)
+            ? <button className="btn btn-default" onClick={this.updateChart.bind(this)}>Update</button>
+            : <button className="btn btn-success" onClick={this.createChart.bind(this)}>Create</button>}
+          { (this.state.plot_id)
+            ? <button className="btn btn-danger" onClick={this.deleteChart.bind(this)}>Delete</button>
+            : null }
+          <button className="btn btn-default" onClick={this.cleanChart.bind(this)}>Clean</button>
+        </div>
+        
+        <div>
+          <svg width="500" height="500"></svg>
+        </div>
       </div>
     )
   }
