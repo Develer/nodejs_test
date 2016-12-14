@@ -1,7 +1,10 @@
 var bodyParser = require('body-parser');
 var cons = require('consolidate');
 var express = require('express');
-var session = require('express-session')
+// var session = require('express-session');
+var session = require('cookie-session');
+
+// var cookieParser = require('cookie-parser');
 var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -14,14 +17,41 @@ var sequelize = new Sequelize({dialect: 'postgres'});
 
 var app = express();
 
-// Set react view engine
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jsx');
-app.engine('jsx', require('express-react-views').createEngine());
+// // Set react view engine
+// app.set('views', __dirname + '/views');
+// app.set('view engine', 'jsx');
+// app.engine('jsx', require('express-react-views').createEngine());
+// app.engine('html', cons.swig);
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'html');
 
 app.use(express.static('sources'));
+// app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(session({secret: '1234567890qwerty'}));
+// app.use(session({
+//   name: 'session',
+//   secret: '1234567890qwerty',
+//   duration: 30 * 60 * 1000,
+//   activeDuration: 5 * 30 * 1000,
+//   cookie: {
+//     httpOnly: false,
+//     secure: false,
+//     domain: 'http://127.0.0.1:8080/'
+//   }
+// }));
+
+var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+app.use(session({
+  name: 'session',
+  keys: ['key1', 'key2'],
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    domain: 'http://127.0.0.1:8080',
+    path: '/',
+    expires: expiryDate
+  }
+}))
 
 // Add headers
 app.use(function (req, res, next) {
@@ -29,8 +59,9 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Methods',
                 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers',
-                'X-Requested-With,content-type');
+                'X-Requested-With,content-type,cookie,set-cookie');
   res.setHeader('Access-Control-Allow-Credentials', true);
+  // res.setHeader('Access-Control-Expose-Headers', 'my_cookie');
   next();
 });
 
@@ -46,6 +77,7 @@ app.use(function(req, res, next) {
         delete req.user.password;
         req.session.user = req.user;
         res.locals.user = req.user;
+        // res.setHeader('my_cookie', req.session);
       }
       next();
     });

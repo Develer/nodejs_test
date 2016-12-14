@@ -21,13 +21,16 @@ class LoginStore extends EventEmmiter {
 
   handleAction(action) {
     console.log("LOGIN ACTION");
+    
     switch(action.type) {
+      
       case "GET_CSRF_LOGIN_TOKEN": {
         console.log("GET_CSRF_LOGIN_TOKEN");
         this.csrfToken = action.csrfToken;
         this.emit('change');
         break;
       }
+      
       case "LOGIN_DONE": {
         console.log("LOGIN_DONE");
         // console.log('action.session', action.data.session);

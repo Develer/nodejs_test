@@ -5,20 +5,20 @@ import * as PlotExpActions from '../actions/PlotExpActions.jsx';
 import PlotExpStore from '../stores/PlotExpStore.jsx';
 
 class PlotList extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.getPlotExps = this.getPlotExps.bind(this);
 
     this.state = {
-      plot_exps: PlotExpStore.getAll()
+      plot_exps: []  // PlotExpStore.getAll()
     };
 
   }
 
   componentWillMount() {
     PlotExpStore.on('change', this.getPlotExps);
-    console.log("count", PlotExpStore.listenerCount("change"));
+    PlotExpActions.reloadPlotExps();
   }
 
   componentWillUnmount() {
@@ -31,20 +31,24 @@ class PlotList extends React.Component {
     });
   }
 
-  reloadPlotExps(plot_exp) {
-    PlotExpActions.reloadPlotExps();
+  selectPlot(data) {
+    this.props.onPlotSelect(data);
   }
   
   render() {
     const { plot_exps } = this.state;
     const PlotComponents = plot_exps.map((plot_exp) => {
-      return <Plot key={plot_exp.id} {...plot_exp}/>
+      return <Plot onPlotClick={this.selectPlot.bind(this)}
+                   key={plot_exp.plot_id}
+                   plotId={plot_exp.plot_id}
+                   userId={plot_exp.user_id}
+                   plotExp={plot_exp.plot_exp}/>
     });
 
     return (
       <div>
-        <h1 className="page-header">{this.props.title}</h1>
-        <button onClick={this.reloadPlotExps.bind(this)}>Reload</button>
+        <h1 className="page-header"></h1>
+        
         <ul className="nav nav-sidebar">
           { PlotComponents }
         </ul>

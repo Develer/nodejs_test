@@ -10,14 +10,32 @@ class PlotExpStore extends EventEmmiter {
     this.plot_exps = [];
   }
 
-  createPlotExp(plot_exp) {
-    const id = Date.now();
-    
+  createPlotExp(plot_id, user_id, plot) {
     this.plot_exps.push({
-      id,
-      plot_exp
+      plot_id: plot_id,
+      user_id: user_id,
+      plot_exp: plot
     });
+    this.emit('change');
+  }
 
+  updatePlotExp(plot_id, user_id, plot) {
+    for (var i = 0; i < this.plot_exps.length; i++) {
+      if (this.plot_exps[i].plot_id == plot_id) {
+        this.plot_exps[i].plot_exp = plot;
+        break;
+      }
+    }
+    this.emit('change');
+  }
+
+  deletePlotExp(plot_id) {
+    for (var i = 0; i < this.plot_exps.length; i++) {
+      if (this.plot_exps[i].plot_id == plot_id) {
+        delete this.plot_exps[i];
+        break;
+      }
+    }
     this.emit('change');
   }
 
@@ -28,11 +46,23 @@ class PlotExpStore extends EventEmmiter {
   handleAction(action) {
     switch(action.type) {
       case "CREATE_PLOT": {
-        this.createPlotExp(action.plot_exp);
+        this.createPlotExp(
+          action.data.plot_id, action.data.user_id, action.data.plot);
+        break;
+      }
+      case "UPDATE_PLOT": {
+        this.updatePlotExp(
+          action.data.plot_id, action.data.user_id, action.data.plot);
+        break;
+      }
+      case "DELETE_PLOT": {
+        this.deletePlotExp(action.plot_id);
+        break;
       }
       case "RECEIVE_PLOTS": {
         this.plot_exps = action.plot_exps;
         this.emit('change');
+        break;
       }
     }
   }

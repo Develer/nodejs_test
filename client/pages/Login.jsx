@@ -4,8 +4,8 @@ import * as LoginActions from '../actions/LoginActions.jsx';
 import LoginStore from '../stores/LoginStore.jsx';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       csrfToken: LoginStore.getCSRFTokenLogin(),
@@ -31,7 +31,7 @@ class Login extends React.Component {
   }
 
   changer() {
-    console.log("changer:", this.state.session);
+    console.log("changer session:", this.state.session);
     // Check session property state
     if (Object.keys(this.state.session).length === 0 &&
         this.state.session.constructor === Object) {

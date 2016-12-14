@@ -16,6 +16,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/register', csrfProtection, function(req, res) {
+// router.get('/register', function(req, res) {
   res.end(JSON.stringify({ csrfToken: req.csrfToken() }));
 });
 
@@ -31,6 +32,7 @@ router.post('/register', urlencodedParser, function(req, res) {
 });
 
 router.get('/login', csrfProtection, function(req, res) {
+// router.get('/login', function(req, res) {
   res.end(JSON.stringify({ csrfToken: req.csrfToken() }));
 });
 
@@ -43,7 +45,8 @@ router.post('/login', urlencodedParser, function(req, res) {
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         req.session.user = user;
-        res.end(JSON.stringify({ session: req.session }));
+        res.setHeader('my_cookie', req.session);
+        res.end(JSON.stringify({ session: req.session, session_id: req.session.id }));
       } else {
         res.end(JSON.stringify({'error': 'Login or password incorrect!'}));
       }
@@ -64,11 +67,13 @@ router.get('/home', requireLogin, function(req, res) {
 });
 
 function requireLogin(req, res, next) {
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    next();
-  }
+  // if (!req.user) {
+  //   // res.redirect('/login');
+  //   // res.end(JSON.stringify({'error': 'requireLogin'}));
+  // } else {
+  //   next();
+  // }
+  next();
 }
 
 module.exports = router;
