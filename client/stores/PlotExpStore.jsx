@@ -14,7 +14,7 @@ class PlotExpStore extends EventEmmiter {
     this.plot_exps.push({
       plot_id: plot_id,
       user_id: user_id,
-      plot: plot
+      plot_exp: plot
     });
     this.emit('change');
   }

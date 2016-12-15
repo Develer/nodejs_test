@@ -37,28 +37,21 @@ class Graph extends React.Component {
 
   componentDidMount() {
     this.initGraph();
-    // this.updateGraph();
   }
 
   componentWillReceiveProps(props) {
-    // console.log('componentWillReceiveProps', props.chart);
     this.setState({
       plot_id: props.chart.plot_id,
       user_id: props.chart.user_id,
       plot: props.chart.plot,
-      // data: []
     });
 
     this.state.data = [];
 
-    // console.log('this.state.data before: ', this.state.data);
-    
     var parser = new this.parser.Parser();
     for (var i = -5; i <= 5; i++) {
       this.state.data.push([i, parser.evaluate(props.chart.plot, { x: i })]);
     }
-
-    // console.log('this.state.data after: ', this.state.data);
 
     this.updateGraph();
   }
@@ -158,17 +151,34 @@ class Graph extends React.Component {
 
   createChart() {
     PlotExpActions.createPlotExp(1, this.state.plot);
+    this.setState({
+      plot: this.state.plot,
+    });
+
+    this.state.data = [];
+
+    var parser = new this.parser.Parser();
+    for (var i = -5; i <= 5; i++) {
+      this.state.data.push([i, parser.evaluate(this.state.plot, { x: i })]);
+    }
+
+    this.updateGraph();
   }
 
   updateChart() {
     PlotExpActions.updatePlotExp(this.state.plot_id, 1, this.state.plot);
-    // this.setState({
-    //   plot_id: this.state.plot_id,
-    //   user_id: 1,
-    //   plot: this.state.plot
-    //   // data: []
-    // });
-    // PlotExpActions.reloadPlotExps();
+    this.setState({
+      plot: this.state.plot,
+    });
+
+    this.state.data = [];
+
+    var parser = new this.parser.Parser();
+    for (var i = -5; i <= 5; i++) {
+      this.state.data.push([i, parser.evaluate(this.state.plot, { x: i })]);
+    }
+
+    this.updateGraph();
   }
 
   deleteChart() {
@@ -176,6 +186,7 @@ class Graph extends React.Component {
   }
 
   cleanChart() {
+    $('li').removeClass('active');
     var data = [];
     for (var i = -5; i <= 5; i++) {
       data.push([i, 0]);
@@ -184,13 +195,9 @@ class Graph extends React.Component {
       plot_id: '',
       user_id: '',
       plot: '',
-      // data: data,
     });
 
     this.state.data = data;
-
-    // console.log('this.state.data cleanChart: ', this.state.data);
-
 
     this.updateGraph();
   }

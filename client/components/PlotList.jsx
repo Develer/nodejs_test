@@ -30,6 +30,7 @@ class PlotList extends React.Component {
     this.setState({
       plot_exps: PlotExpStore.getAll()
     });
+    console.log('UPDATE!!!: ', this.state.plot_exps);
   }
 
   selectPlot(data) {

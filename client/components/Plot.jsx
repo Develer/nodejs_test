@@ -31,8 +31,7 @@ class Plot extends React.Component {
 
   onPlotClick(event) {
     event.preventDefault();
-    console.log(event.target);
-    // event.target.class = "active";
+    $('li').removeClass('active');
     this.setState({
       active: "active"
     });
