@@ -49,24 +49,27 @@ class Graph extends React.Component {
     this.state.data = [];
 
     var parser = new this.parser.Parser();
-    for (var i = -5; i <= 5; i++) {
+    for (var i = -15; i <= 15; i++) {
       this.state.data.push([i, parser.evaluate(props.chart.plot, { x: i })]);
     }
 
     this.updateGraph();
   }
 
-  componentWillUnmount() {
-    console.log('unmount graph');
-  }
+  // componentWillUnmount() {
+  //   console.log('unmount graph');
+  // }
 
   initGraph() {
     var data = [];
-    for (var i = -5; i <= 5; i++) {
+    for (var i = -15; i <= 15; i++) {
+      // data.push([i, Math.random() * 10 - 5]);
       data.push([i, 0]);
     }
 
-    var svg = d3.select("svg"),
+    var svg = d3.select("svg")
+      .attr("width", 500)
+      .attr("height", 500),
       margin = {top: 20, right: 20, bottom: 30, left: 50},
       width = +svg.attr("width") - margin.left - margin.right,
       height = +svg.attr("height") - margin.top - margin.bottom,
@@ -78,7 +81,7 @@ class Graph extends React.Component {
     var y = d3.scaleLinear()
         .rangeRound([height, 0]);
 
-    var line = d3.line().curve(d3.curveCardinal.tension(0))
+    var line = d3.line().curve(d3.curveNatural)
         .x(function(d) { return x(d[0]); })
         .y(function(d) { return y(d[1]); });
 
@@ -87,8 +90,9 @@ class Graph extends React.Component {
 
     var xAxis = g.append("g")
         .attr("class", "axis axis--x")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x))
+        .attr("transform", "translate(0," + height + ")");
+
+    xAxis
       .append("text")
         .attr("transform", "translate(" + width +", 0)")
         .attr("fill", "#000")
@@ -98,16 +102,20 @@ class Graph extends React.Component {
         .style("text-anchor", "end")
         .text("X");
 
+    xAxis.call(d3.axisBottom(x));
+
     var yAxis = g.append("g")
         .attr("class", "axis axis--y")
-        .call(d3.axisLeft(y))
-      .append("text")
+
+    yAxis.append("text")
         .attr("fill", "#000")
         // .attr("transform", "rotate(-90)")
         .attr("y", -2)
         // .attr("dx", "0.71em")
         .style("text-anchor", "end")
         .text("Y");
+
+    yAxis.call(d3.axisLeft(y));
 
     var chart = g.append("path")
           .datum(data)
@@ -136,6 +144,12 @@ class Graph extends React.Component {
       .duration(1000)
       .attr('d', this.state.line(this.state.data));
 
+    this.state.yAxis
+      .transition()
+      .duration(1000)
+      .call(d3.axisLeft(this.state.y));
+
+
     // this.setState({
     //   x: x,
     //   y: y,
@@ -158,7 +172,7 @@ class Graph extends React.Component {
     this.state.data = [];
 
     var parser = new this.parser.Parser();
-    for (var i = -5; i <= 5; i++) {
+    for (var i = -15; i <= 15; i++) {
       this.state.data.push([i, parser.evaluate(this.state.plot, { x: i })]);
     }
 
@@ -174,7 +188,7 @@ class Graph extends React.Component {
     this.state.data = [];
 
     var parser = new this.parser.Parser();
-    for (var i = -5; i <= 5; i++) {
+    for (var i = -15; i <= 15; i++) {
       this.state.data.push([i, parser.evaluate(this.state.plot, { x: i })]);
     }
 
@@ -188,7 +202,7 @@ class Graph extends React.Component {
   cleanChart() {
     $('li').removeClass('active');
     var data = [];
-    for (var i = -5; i <= 5; i++) {
+    for (var i = -15; i <= 15; i++) {
       data.push([i, 0]);
     }
     this.setState({
@@ -217,7 +231,7 @@ class Graph extends React.Component {
         </div>
         
         <div>
-          <svg width="500" height="500"></svg>
+          <svg></svg>
         </div>
       </div>
     )
