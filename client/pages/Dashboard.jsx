@@ -52,7 +52,7 @@ class Dashboard extends React.Component {
           </div>
 
           <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-              <PlotList onPlotSelect={this.onPlotSelect.bind(this)}/>
+            <PlotList onPlotSelect={this.onPlotSelect.bind(this)}/>
           </div>
 
         </div>

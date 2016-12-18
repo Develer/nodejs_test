@@ -204,20 +204,22 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div class="row">
+      <div class="row graph">
         <svg class="center-block"></svg>
         <div className="center-block">
           <input type="text" className="form-control" value={this.state.plot} onChange={this.onChartChange.bind(this)}/>
         </div>
-        <div class="center-block">
+        
+        <div class="center-block btn-group btn-group-justified" role="group" aria-label="...">
           {(this.state.plot_id)
-            ? <button className="btn btn-default" onClick={this.updateChart.bind(this)}>Update</button>
-            : <button className="btn btn-success" onClick={this.createChart.bind(this)}>Create</button>}
+            ? <div class="btn-group" role="group"><button type="button" className="btn btn-default" onClick={this.updateChart.bind(this)}>Update</button></div>
+            : <div class="btn-group" role="group"><button type="button" className="btn btn-success" onClick={this.createChart.bind(this)}>Create</button></div>}
           { (this.state.plot_id)
-            ? <button className="btn btn-danger" onClick={this.deleteChart.bind(this)}>Delete</button>
+            ? <div class="btn-group" role="group"><button type="button" className="btn btn-danger" onClick={this.deleteChart.bind(this)}>Delete</button></div>
             : null }
-          <button className="btn btn-default" onClick={this.cleanChart.bind(this)}>Clean</button>
+          <div class="btn-group" role="group"><button type="button" className="btn btn-default" onClick={this.cleanChart.bind(this)}>Clean</button></div>
         </div>
+
       </div>
     )
   }
