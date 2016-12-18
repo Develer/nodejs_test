@@ -17,14 +17,6 @@ var sequelize = new Sequelize({dialect: 'postgres'});
 
 var app = express();
 
-// // Set react view engine
-// app.set('views', __dirname + '/views');
-// app.set('view engine', 'jsx');
-// app.engine('jsx', require('express-react-views').createEngine());
-// app.engine('html', cons.swig);
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'html');
-
 app.use(express.static('sources'));
 // app.use(cookieParser());
 app.use(bodyParser.json());
@@ -61,7 +53,6 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Headers',
                 'X-Requested-With,content-type,cookie,set-cookie');
   res.setHeader('Access-Control-Allow-Credentials', true);
-  // res.setHeader('Access-Control-Expose-Headers', 'my_cookie');
   next();
 });
 
@@ -77,7 +68,6 @@ app.use(function(req, res, next) {
         delete req.user.password;
         req.session.user = req.user;
         res.locals.user = req.user;
-        // res.setHeader('my_cookie', req.session);
       }
       next();
     });

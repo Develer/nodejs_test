@@ -16,7 +16,6 @@ router.get('/', function(req, res) {
 });
 
 router.get('/register', csrfProtection, function(req, res) {
-// router.get('/register', function(req, res) {
   res.end(JSON.stringify({ csrfToken: req.csrfToken() }));
 });
 
@@ -32,7 +31,6 @@ router.post('/register', urlencodedParser, function(req, res) {
 });
 
 router.get('/login', csrfProtection, function(req, res) {
-// router.get('/login', function(req, res) {
   res.end(JSON.stringify({ csrfToken: req.csrfToken() }));
 });
 
@@ -58,22 +56,7 @@ router.post('/login', urlencodedParser, function(req, res) {
 
 router.get('/logout', function(req, res) {
   req.session.destroy();
-  // res.redirect('/');
   res.end(JSON.stringify({ status: 'done' }));
 });
-
-router.get('/home', requireLogin, function(req, res) {
-  res.render('home.html');
-});
-
-function requireLogin(req, res, next) {
-  // if (!req.user) {
-  //   // res.redirect('/login');
-  //   // res.end(JSON.stringify({'error': 'requireLogin'}));
-  // } else {
-  //   next();
-  // }
-  next();
-}
 
 module.exports = router;

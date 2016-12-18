@@ -12,7 +12,6 @@ router.post('/create', urlencodedParser, function (req, res) {
     plot_exp: req.body.plot_exp
   };
   models.charts.create(chart).then(function(resp) {
-    // console.log(resp.dataValues);
     var data = {
       plot_id: resp.dataValues.id,
       user_id: resp.dataValues.user_id,
@@ -34,14 +33,12 @@ router.post('/update', urlencodedParser, function (req, res) {
       chart.updateAttributes({
         plot_exp: req.body.plot_exp
       }).then(function(resp) {
-        console.log(resp);
         var data = {
           plot_id: resp.dataValues.id,
           user_id: resp.dataValues.user_id,
           plot: resp.dataValues.plot_exp
         };
         res.end(JSON.stringify(data));
-        // res.end(JSON.stringify({"status": "OK!"}));
       });
     }
   });
@@ -51,7 +48,6 @@ router.post('/update', urlencodedParser, function (req, res) {
 router.post('/list', urlencodedParser, function (req, res) {
   models.charts.findAll({
     where: {
-      // user_id: parseInt(req.user.id)
       user_id: parseInt(req.body.id)
     }
   }).then(function(plot_exp) {
@@ -73,7 +69,7 @@ router.post('/delete', urlencodedParser, function(req, res) {
 
 function requireLogin(req, res, next) {
   if (!req.user) {
-    res.redirect('/login');
+    res.end(JSON.stringify({access: true}));
   } else {
     next();
   }
