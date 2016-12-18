@@ -162,8 +162,9 @@ class Graph extends React.Component {
 
   updateChart() {
     PlotExpActions.updatePlotExp(this.state.plot_id, 1, this.state.plot);
+    
     this.setState({
-      plot: this.state.plot,
+      plot: this.state.plot
     });
 
     this.state.data = [];
@@ -178,21 +179,25 @@ class Graph extends React.Component {
 
   deleteChart() {
     PlotExpActions.deletePlotExp(this.state.plot_id, 1);
+    this.cleanChart();
   }
 
   cleanChart() {
+    // clean li selection
     $('li').removeClass('active');
+
+    // line drops to zero
     var data = [];
     for (var i = -this.range; i <= this.range; i++) {
       data.push([i, 0]);
     }
+    this.state.data = data;
+    
     this.setState({
       plot_id: '',
       user_id: '',
       plot: '',
     });
-
-    this.state.data = data;
 
     this.updateGraph();
   }

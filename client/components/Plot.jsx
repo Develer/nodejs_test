@@ -31,17 +31,19 @@ class Plot extends React.Component {
 
   onPlotClick(event) {
     event.preventDefault();
+    // quick jquery experiment
+    var li = $(event.target).parent();
     $('li').removeClass('active');
-    this.setState({
-      active: "active"
-    });
+    li.addClass("active");
+
     this.props.onPlotClick(this.state);
   }
 
   render() {
     const { plotExp } = this.props;
     return (
-      <li className={this.state.active}>
+      <li>
+        {/*<li className={this.state.active}>*/}
         <a href="#"
            onClick={this.onPlotClick.bind(this)}>{ plotExp }</a>
       </li>
