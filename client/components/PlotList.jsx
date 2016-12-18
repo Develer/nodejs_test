@@ -47,9 +47,9 @@ class PlotList extends React.Component {
     });
 
     return (
-      <ul className="nav nav-sidebar">
+      <div class="list-group">
         { PlotComponents }
-      </ul>
+      </div>
     )
   }
 }

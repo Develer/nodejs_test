@@ -8,16 +8,16 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <nav className="navbar navbar-inverse navbar-fixed-top">
-        <div className="container-fluid">
-          <div className="navbar-header">
+      <nav class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container">
+          <div class="navbar-header">
             <Link className="navbar-brand"
                   to="/dashboard"
                   onClick={ this.navigate.bind(this) }>ChartHub</Link>
           </div>
-          <div id="navbar" className="navbar-collapse collapse">
-            <ul className="nav navbar-nav navbar-right">
-              <li><Link to='/dashboard'>Dashboard</Link></li>
+          <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li><Link class="active" to='/dashboard'>Dashboard</Link></li>
               {/*<li><Link to='/login'>Login</Link></li>
               <li><Link to='/register'>Register</Link></li>*/}
             </ul>

@@ -183,8 +183,8 @@ class Graph extends React.Component {
   }
 
   cleanChart() {
-    // clean li selection
-    $('li').removeClass('active');
+    // clean selection
+    $(".list-group-item").removeClass('active');
 
     // line drops to zero
     var data = [];
@@ -204,10 +204,12 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div>
-        <svg></svg>
-        <div className="form-inline">
+      <div class="row">
+        <svg class="center-block"></svg>
+        <div className="center-block">
           <input type="text" className="form-control" value={this.state.plot} onChange={this.onChartChange.bind(this)}/>
+        </div>
+        <div class="center-block">
           {(this.state.plot_id)
             ? <button className="btn btn-default" onClick={this.updateChart.bind(this)}>Update</button>
             : <button className="btn btn-success" onClick={this.createChart.bind(this)}>Create</button>}
