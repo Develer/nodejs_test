@@ -13,7 +13,7 @@ var app = document.getElementById('app');
 render(
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={Home}></IndexRoute>
+      <IndexRoute component={Dashboard}></IndexRoute>
       <Route path="/dashboard" component={Dashboard}></Route>
       <Route path="/register" component={Register}></Route>
       <Route path="/login" component={Login}></Route>

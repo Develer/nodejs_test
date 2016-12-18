@@ -4,14 +4,13 @@ import Parser from 'expr-eval';
 
 import * as PlotExpActions from '../actions/PlotExpActions.jsx';
 
-// var Parser = require('expr-eval').Parser;
-
 
 class Graph extends React.Component {
   constructor(props) {
     super(props);
 
     this.parser = Parser;
+    this.range = 15;
 
     this.state = {
       plot_id: '',
@@ -31,9 +30,7 @@ class Graph extends React.Component {
     this.cleanChart = this.cleanChart.bind(this);
   }
 
-  componentWillMount() {
-    console.log('mount graph');
-  }
+  componentWillMount() {}
 
   componentDidMount() {
     this.initGraph();
@@ -49,21 +46,18 @@ class Graph extends React.Component {
     this.state.data = [];
 
     var parser = new this.parser.Parser();
-    for (var i = -15; i <= 15; i++) {
+    for (var i = -this.range; i <= this.range; i++) {
       this.state.data.push([i, parser.evaluate(props.chart.plot, { x: i })]);
     }
 
     this.updateGraph();
   }
 
-  // componentWillUnmount() {
-  //   console.log('unmount graph');
-  // }
+  componentWillUnmount() {}
 
   initGraph() {
     var data = [];
-    for (var i = -15; i <= 15; i++) {
-      // data.push([i, Math.random() * 10 - 5]);
+    for (var i = -this.range; i <= this.range; i++) {
       data.push([i, 0]);
     }
 
@@ -96,7 +90,6 @@ class Graph extends React.Component {
       .append("text")
         .attr("transform", "translate(" + width +", 0)")
         .attr("fill", "#000")
-        // .attr("transform", "rotate(-90)")
         .attr("x", 10)
         .attr("dy", "0.71em")
         .style("text-anchor", "end")
@@ -109,9 +102,7 @@ class Graph extends React.Component {
 
     yAxis.append("text")
         .attr("fill", "#000")
-        // .attr("transform", "rotate(-90)")
         .attr("y", -2)
-        // .attr("dx", "0.71em")
         .style("text-anchor", "end")
         .text("Y");
 
@@ -136,9 +127,6 @@ class Graph extends React.Component {
     this.state.x.domain(d3.extent(this.state.data, function(d) { return d[0]; }));
     this.state.y.domain(d3.extent(this.state.data, function(d) { return d[1]; }));
 
-    // this.state.xAxis.call(d3.axisBottom(this.state.x));
-    // this.state.yAxis.call(d3.axisLeft(this.state.y));
-
     this.state.chart
       .transition()
       .duration(1000)
@@ -148,13 +136,6 @@ class Graph extends React.Component {
       .transition()
       .duration(1000)
       .call(d3.axisLeft(this.state.y));
-
-
-    // this.setState({
-    //   x: x,
-    //   y: y,
-    //   chart: chart
-    // });
   }
 
   onChartChange(event) {
@@ -172,7 +153,7 @@ class Graph extends React.Component {
     this.state.data = [];
 
     var parser = new this.parser.Parser();
-    for (var i = -15; i <= 15; i++) {
+    for (var i = -this.range; i <= this.range; i++) {
       this.state.data.push([i, parser.evaluate(this.state.plot, { x: i })]);
     }
 
@@ -188,7 +169,7 @@ class Graph extends React.Component {
     this.state.data = [];
 
     var parser = new this.parser.Parser();
-    for (var i = -15; i <= 15; i++) {
+    for (var i = -this.range; i <= this.range; i++) {
       this.state.data.push([i, parser.evaluate(this.state.plot, { x: i })]);
     }
 
@@ -202,7 +183,7 @@ class Graph extends React.Component {
   cleanChart() {
     $('li').removeClass('active');
     var data = [];
-    for (var i = -15; i <= 15; i++) {
+    for (var i = -this.range; i <= this.range; i++) {
       data.push([i, 0]);
     }
     this.setState({
@@ -219,6 +200,7 @@ class Graph extends React.Component {
   render() {
     return (
       <div>
+        <svg></svg>
         <div className="form-inline">
           <input type="text" className="form-control" value={this.state.plot} onChange={this.onChartChange.bind(this)}/>
           {(this.state.plot_id)
@@ -228,10 +210,6 @@ class Graph extends React.Component {
             ? <button className="btn btn-danger" onClick={this.deleteChart.bind(this)}>Delete</button>
             : null }
           <button className="btn btn-default" onClick={this.cleanChart.bind(this)}>Clean</button>
-        </div>
-        
-        <div>
-          <svg></svg>
         </div>
       </div>
     )

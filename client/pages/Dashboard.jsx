@@ -6,7 +6,8 @@ import Graph from '../components/Graph.jsx';
 import * as LoginActions from '../actions/LoginActions.jsx';
 import LoginStore from '../stores/LoginStore.jsx';
 
-require('./Dashboard.css');
+require('../src/css/Dashboard.css');
+require('../src/css/Graph.css');
 
 
 class Dashboard extends React.Component {
@@ -29,7 +30,6 @@ class Dashboard extends React.Component {
   }
 
   onPlotSelect(data) {
-    console.log('onPlotSelect data: ', data)
     this.setState({
       plot_id: data.plot_id,
       user_id: data.user_id,

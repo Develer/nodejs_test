@@ -20,22 +20,15 @@ class RegStore extends EventEmmiter {
   }
   
   handleAction(action) {
-    console.log("REG ACTION!");
     switch(action.type) {
       case "GET_CSRF_REG_TOKEN": {
-        console.log("GET_CSRF_REG_TOKEN");
         this.csrfToken = action.csrfToken;
         this.emit('change');
         break;
       }
       case "REG_DONE": {
-        console.log("REG_DONE!!!");
         this.registeredData = action.data;
         this.emit('change');
-        break;
-      }
-      case "REG_REDIRECT": {
-        console.log("REG_REDIRECT");
         break;
       }
     }

@@ -3,7 +3,7 @@ import React from 'react';
 import * as RegisterActions from '../actions/RegisterActions.jsx';
 import RegStore from '../stores/RegStore.jsx';
 
-require('./signin.css');
+// require('./signin.css');
 
 
 class Register extends React.Component {

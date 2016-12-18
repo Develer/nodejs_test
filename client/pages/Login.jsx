@@ -3,7 +3,7 @@ import React from 'react';
 import * as LoginActions from '../actions/LoginActions.jsx';
 import LoginStore from '../stores/LoginStore.jsx';
 
-require('./signin.css');
+// require('./signin.css');
 
 class Login extends React.Component {
   constructor(props) {
