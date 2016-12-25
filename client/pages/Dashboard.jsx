@@ -6,7 +6,7 @@ import Graph from '../components/Graph.jsx';
 import * as LoginActions from '../actions/LoginActions.jsx';
 import LoginStore from '../stores/LoginStore.jsx';
 
-require('../src/css/offcanvas.css');
+require('../src/css/Dashboard.css');
 require('../src/css/Graph.css');
 require('../src/js/offcanvas.js');
 
