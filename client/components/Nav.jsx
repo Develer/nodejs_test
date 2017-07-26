@@ -13,11 +13,11 @@ class Nav extends React.Component {
           <div class="navbar-header">
             <Link className="navbar-brand"
                   to="/dashboard"
-                  onClick={ this.navigate.bind(this) }>ChartHub</Link>
+                  onClick={ this.navigate.bind(this) }>Home</Link>
           </div>
           <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li><Link class="active" to='/dashboard'>Dashboard</Link></li>
+              {/*<li><Link class="active" to='/dashboard'>Dashboard</Link></li>*/}
               {/*<li><Link to='/login'>Login</Link></li>
               <li><Link to='/register'>Register</Link></li>*/}
             </ul>

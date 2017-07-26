@@ -1,5 +1,7 @@
 import React from 'react';
 
+import axios from 'axios'
+
 import PlotList from '../components/PlotList.jsx';
 import Graph from '../components/Graph.jsx';
 
@@ -16,45 +18,100 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      plot_id: null,
-      user_id: null,
-      plot: null
+      result: 'result_string',
+      nouns: [],
+      nouns_text: '',
+      adjs: [],
+      adjs_text: '',
+      verbs: [],
+      verbs_text: '',
     };
+
+    this.nounsChanged = this.nounsChanged.bind(this);
+    this.adjsChanged = this.adjsChanged.bind(this);
+    this.verbsChanged = this.verbsChanged.bind(this);
+    this.genereteSentense = this.genereteSentense.bind(this);
   }
 
-  changeChart(data) {
+  nounsChanged(event) {
     this.setState({
-      plot_id: data.plot_id,
-      user_id: data.user_id,
-      plot: data.plot
-    });
+      nouns: event.target.value.split(/\r?\n/),
+      nouns_text: event.target.value
+    })
   }
 
-  onPlotSelect(data) {
+  adjsChanged(event) {
     this.setState({
-      plot_id: data.plot_id,
-      user_id: data.user_id,
-      plot: data.plot
+      adjs: event.target.value.split(/\r?\n/),
+      adjs_text: event.target.value
+    })
+  }
+
+  verbsChanged(event) {
+    this.setState({
+      verbs: event.target.value.split(/\r?\n/),
+      verbs_text: event.target.value
+    })
+  }
+
+  genereteSentense(event) {
+    event.preventDefault();
+
+    console.log('genereteSentense')
+    console.log(this.state.nouns)
+    console.log(this.state.adjs)
+    console.log(this.state.verbs)
+
+    var postData = JSON.stringify({
+      "noun": this.state.nouns,
+      "adj":this.state.adjs,
+      "verb":this.state.verbs
     });
+
+    axios.post('http://127.0.0.1:8081', postData)
+      .then(res => {
+        if (res.data) {
+          console.log('res=', res);
+          this.setState({
+            result: res.data
+          })
+        }
+      })
+      .catch(err => {
+        console.error('An error occurred: ', err)
+      })
   }
 
   render() {
     return (
       <div class="container">
 
-        <div class="row row-offcanvas row-offcanvas-right">
-
-          <div class="col-xs-12 col-sm-9">
-            <p class="pull-right visible-xs">
-              <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-            </p>
-            <Graph changeChart={this.changeChart.bind(this)} chart={this.state}/>
-          </div>
-
-          <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-            <PlotList onPlotSelect={this.onPlotSelect.bind(this)}/>
-          </div>
-
+        <div class="row">
+          <form onSubmit={this.genereteSentense}>
+            <p>{this.state.result}</p>
+            <div className='form-group'>
+              <label>Nouns</label>
+              <textarea className='form-control'
+                value={this.state.nouns_text}
+                onChange={this.nounsChanged}
+                rows='5'></textarea>
+            </div>
+            <div className='form-group'>
+              <label>Adjs</label>
+              <textarea className='form-control'
+                value={this.state.adjs_text}
+                onChange={this.adjsChanged}
+                rows='5'></textarea>
+            </div>
+            {/*<div className='form-group'>
+              <label>Verbs</label>
+              <textarea className='form-control'
+                value={this.state.verbs_text}
+                onChange={this.verbsChanged}
+                rows='5'></textarea>
+            </div>*/}
+            <button type='submit' className='btn btn-info'>Generate</button>
+          </form>
         </div>
 
       </div>
