@@ -103,13 +103,13 @@ class Dashboard extends React.Component {
                 onChange={this.adjsChanged}
                 rows='5'></textarea>
             </div>
-            {/*<div className='form-group'>
+            <div className='form-group'>
               <label>Verbs</label>
               <textarea className='form-control'
                 value={this.state.verbs_text}
                 onChange={this.verbsChanged}
                 rows='5'></textarea>
-            </div>*/}
+            </div>
             <button type='submit' className='btn btn-info'>Generate</button>
           </form>
         </div>
