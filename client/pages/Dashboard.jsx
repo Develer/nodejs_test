@@ -2,12 +2,6 @@ import React from 'react';
 
 import axios from 'axios'
 
-import PlotList from '../components/PlotList.jsx';
-import Graph from '../components/Graph.jsx';
-
-import * as LoginActions from '../actions/LoginActions.jsx';
-import LoginStore from '../stores/LoginStore.jsx';
-
 require('../src/css/Dashboard.css');
 require('../src/css/Graph.css');
 require('../src/js/offcanvas.js');
@@ -19,6 +13,8 @@ class Dashboard extends React.Component {
 
     this.state = {
       result: 'result_string',
+      results: [],
+      count: 10,
       nouns: [],
       nouns_text: '',
       adjs: [],
@@ -31,6 +27,7 @@ class Dashboard extends React.Component {
     this.adjsChanged = this.adjsChanged.bind(this);
     this.verbsChanged = this.verbsChanged.bind(this);
     this.genereteSentense = this.genereteSentense.bind(this);
+    this.countChanged = this.countChanged.bind(this);
   }
 
   nounsChanged(event) {
@@ -54,8 +51,18 @@ class Dashboard extends React.Component {
     })
   }
 
+  countChanged(event) {
+    if (event.target.value > 0) {
+      this.setState({ count: event.target.value })
+    } else {
+      this.setState({ count: 0 })
+    }
+  }
+
   genereteSentense(event) {
     event.preventDefault();
+
+    this.setState({ results: [] });
 
     console.log('genereteSentense')
     console.log(this.state.nouns)
@@ -68,18 +75,19 @@ class Dashboard extends React.Component {
       "verb":this.state.verbs
     });
 
-    axios.post('http://127.0.0.1:8081', postData)
-      .then(res => {
-        if (res.data) {
-          console.log('res=', res);
-          this.setState({
-            result: res.data
-          })
-        }
-      })
-      .catch(err => {
-        console.error('An error occurred: ', err)
-      })
+    for (var i = 0; i < this.state.count; i++) {
+      let newData = this.state.results
+      axios.post('http://127.0.0.1:8081', postData)
+        .then(res => {
+          if (res.data) {
+            newData.push(res.data)
+            this.setState({ results: newData })
+          }
+        })
+        .catch(err => {
+          console.error('An error occurred: ', err)
+        })
+    }
   }
 
   render() {
@@ -87,8 +95,21 @@ class Dashboard extends React.Component {
       <div class="container">
 
         <div class="row">
+          <label>Results</label>
+          <ul>
+            {this.state.results.map((res, i) =>
+              <li key={i}>
+                <p>{res}</p>
+              </li>
+            )}
+          </ul>
+        </div>
+
+        <hr/>
+
+        <div class="row">
           <form onSubmit={this.genereteSentense}>
-            <p>{this.state.result}</p>
+            {/*<p>{this.state.result}</p>*/}
             <div className='form-group'>
               <label>Nouns</label>
               <textarea className='form-control'
@@ -110,9 +131,17 @@ class Dashboard extends React.Component {
                 onChange={this.verbsChanged}
                 rows='5'></textarea>
             </div>
-            <button type='submit' className='btn btn-info'>Generate</button>
+            <div class="form-inline">
+              <button type='submit' className='btn btn-info'>Generate</button>
+              <input className='form-control'
+                type='number'
+                value={this.state.count}
+                onChange={this.countChanged} />
+            </div>
           </form>
         </div>
+
+        <br/>
 
       </div>
     )
