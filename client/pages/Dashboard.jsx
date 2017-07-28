@@ -62,7 +62,7 @@ class Dashboard extends React.Component {
   genereteSentense(event) {
     event.preventDefault();
 
-    this.setState({ results: [] });
+    let newData = [];
 
     console.log('genereteSentense')
     console.log(this.state.nouns)
@@ -75,8 +75,9 @@ class Dashboard extends React.Component {
       "verb":this.state.verbs
     });
 
+    console.log('before results=', this.state.results);
+
     for (var i = 0; i < this.state.count; i++) {
-      let newData = this.state.results
       axios.post('http://127.0.0.1:8081', postData)
         .then(res => {
           if (res.data) {
